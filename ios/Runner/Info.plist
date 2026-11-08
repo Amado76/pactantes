@@ -5,7 +5,13 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>pt</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>pt</string>
+		<string>en</string>
+		<string>es</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Pactantes</string>
 	<key>CFBundleExecutable</key>

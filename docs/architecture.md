@@ -112,6 +112,14 @@ lib/
 
 This is a direction, not a requirement to create empty folders. Tests mirror implemented feature paths.
 
+## Localization
+
+Use Flutter gen-l10n with `flutter_localizations` and `intl`. English is the ARB template (`lib/l10n/app_en.arb`); add matching keys in `app_pt.arb` and `app_es.arb`. Run `flutter gen-l10n` after editing translations. Generated Dart files live in `lib/l10n/generated/` and must not be edited manually.
+
+Read UI strings through `AppLocalizations.of(context)` from a context below `MaterialApp`. Keep `locale` unset so Flutter follows the device preferred languages and responds to language changes. The supported order in `l10n.yaml` is Portuguese, English, Spanish; Portuguese is the fallback when no preferred language is supported. Language-only locales accept regional variants such as `pt-BR`, `pt-PT`, `en-US`, and `es-PY`. Keep iOS `CFBundleLocalizations` aligned with the supported languages. Translations are bundled and require no network or authentication.
+
+This config localizes the interface; it does not translate or alter the licensed reading corpus.
+
 ## Community boundaries (future)
 
 Separate public church profiles from member-only information. Account identity, church membership, admin permissions, prayer request visibility and birthday visibility must be authorized server-side. Never rely on a hidden Flutter button as access control. Do not invent API routes or fields; document contracts once the backend exists.
