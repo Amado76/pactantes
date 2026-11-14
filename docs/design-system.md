@@ -66,3 +66,21 @@ Use `ThemeExtension` for missing semantic roles such as paper/ink, rather than r
 - Accessible labels for icons, selection, progress, and carousels.
 - Respect reduced motion and text scaling; avoid unnecessary animation.
 - Handle empty, loading, error and offline states without misleading promises. Bible and library reading and basic search remain available offline; show connectivity requirements only for features that actually use a network.
+
+## Home implementation assets
+
+Home uses bundled Source Serif 4 for editorial text and the platform sans-serif for controls. Font files come from the Google Fonts Source Serif 4 distribution, authored by the Adobe Source Serif project; the SIL Open Font License is retained in `assets/fonts/OFL.txt`. Home displays `assets/logo/pactantes.png`, generated from the user-provided open-book reference with transparent background. Home entries and the overflow icon provide native Material touch feedback without navigating or changing the selected destination. The Bible entry uses the navy emphasis requested for Home.
+
+## Home logo generation
+
+Generated with the built-in ImageGen tool from the user-provided open-book reference. The transparent PNG is displayed above the brand title on Home.
+
+### Final generation prompt
+
+Use case: logo-brand. Asset type: transparent PNG brand mark for the Pactantes Flutter app header. Input image: reference image only, recreate its exact minimal open-book symbol as a clean high-resolution asset. Subject: four slender curved strokes forming two facing open pages: upper left and upper right strokes muted red #A34C4F; lower left and lower right strokes navy #263E59, converging gently at a central fold with small natural gaps. Preserve the simple shallow curves, balanced symmetry and wide approximately 4:1 silhouette seen in the supplied reference. Flat thin rounded strokes, clean antialiasing. Symbol only, no lettering, no frame, no shadow, no gradients, no additional pages or elements. True transparent background, including between strokes. Tightly framed around the symbol with only a small transparent margin, wide landscape canvas. Output intended to display approximately 52 logical pixels wide by 18 high. Save generated PNG to filesystem and report its local path.
+
+## Home reading carousel states
+
+The existing reading cards serve both Start reading and Continue reading, with shared typography, dimensions, spacing, decoration, touch feedback, and pagination. Unstarted items show a starting-position label and available catalog metadata instead of a progress bar. Catechisms start at question 1; documents without established structure use a generic beginning label. Missing counts are never rendered as zero. Registered catalog previews remain visible when nothing is readable, as requested, while availability and navigation remain disabled. Spanish content titles are preserved across interface locales.
+
+The Home reading carousel scrolls horizontally with cards sized by their actual widget layout. Its height follows the tallest card without duplicating text measurement or spacing rules. Pagination indicates the current card; replacing the item list resets its scroll position and indicator.

@@ -1,7 +1,74 @@
 {
   "@@locale": "en",
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "Greeting displayed on the initial application screen."
-  }
+  "brandSubtitle": "Reformed Resources",
+  "introTitle": "Growing in Grace and Truth",
+  "introDescription": "Bibles, confessions, catechisms and historical texts of the Reformed faith.",
+  "bibleTitle": "Holy Bible",
+  "bibleEdition": "SBT Version",
+  "continueReading": "Continue reading",
+  "exploreLibrary": "Explore the library",
+  "seeAll": "See all",
+  "confessions": "Confessions of faith",
+  "catechisms": "Catechisms",
+  "creeds": "Historic creeds",
+  "documents": "Reformed documents",
+  "home": "Home",
+  "bible": "Bible",
+  "library": "Library",
+  "search": "Search",
+  "community": "Community",
+  "moreOptions": "More options",
+  "completed": "{percent}% COMPLETED",
+  "paragraph": "Paragraph {number}",
+  "readingPage": "Reading {current} of {total}",
+  "@completed": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@paragraph": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "@readingPage": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "startReading": "Start reading",
+  "question": "Question {number}",
+  "questionCount": "{count} questions",
+  "documentBeginning": "Beginning of the document",
+  "documentConfession": "Confession of faith",
+  "documentCatechism": "Catechism",
+  "documentCreed": "Historic creed",
+  "documentHistorical": "Reformed document",
+  "documentCollection": "Collection",
+  "@question": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "@questionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "readingProgressError": "Could not load reading progress.",
+  "retry": "Try again",
+  "loadingReadingProgress": "Loading reading progress"
 }

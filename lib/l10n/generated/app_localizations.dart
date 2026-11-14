@@ -100,11 +100,203 @@ abstract class AppLocalizations {
     Locale('es'),
   ];
 
-  /// Greeting displayed on the initial application screen.
+  /// No description provided for @brandSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Hello World!'**
-  String get helloWorld;
+  /// **'Reformed Resources'**
+  String get brandSubtitle;
+
+  /// No description provided for @introTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Growing in Grace and Truth'**
+  String get introTitle;
+
+  /// No description provided for @introDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Bibles, confessions, catechisms and historical texts of the Reformed faith.'**
+  String get introDescription;
+
+  /// No description provided for @bibleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Holy Bible'**
+  String get bibleTitle;
+
+  /// No description provided for @bibleEdition.
+  ///
+  /// In en, this message translates to:
+  /// **'SBT Version'**
+  String get bibleEdition;
+
+  /// No description provided for @continueReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue reading'**
+  String get continueReading;
+
+  /// No description provided for @exploreLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore the library'**
+  String get exploreLibrary;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// No description provided for @confessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Confessions of faith'**
+  String get confessions;
+
+  /// No description provided for @catechisms.
+  ///
+  /// In en, this message translates to:
+  /// **'Catechisms'**
+  String get catechisms;
+
+  /// No description provided for @creeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Historic creeds'**
+  String get creeds;
+
+  /// No description provided for @documents.
+  ///
+  /// In en, this message translates to:
+  /// **'Reformed documents'**
+  String get documents;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @bible.
+  ///
+  /// In en, this message translates to:
+  /// **'Bible'**
+  String get bible;
+
+  /// No description provided for @library.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get library;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @community.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get community;
+
+  /// No description provided for @moreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get moreOptions;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% COMPLETED'**
+  String completed(int percent);
+
+  /// No description provided for @paragraph.
+  ///
+  /// In en, this message translates to:
+  /// **'Paragraph {number}'**
+  String paragraph(int number);
+
+  /// No description provided for @readingPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading {current} of {total}'**
+  String readingPage(int current, int total);
+
+  /// No description provided for @startReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Start reading'**
+  String get startReading;
+
+  /// No description provided for @question.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {number}'**
+  String question(int number);
+
+  /// No description provided for @questionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} questions'**
+  String questionCount(int count);
+
+  /// No description provided for @documentBeginning.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginning of the document'**
+  String get documentBeginning;
+
+  /// No description provided for @documentConfession.
+  ///
+  /// In en, this message translates to:
+  /// **'Confession of faith'**
+  String get documentConfession;
+
+  /// No description provided for @documentCatechism.
+  ///
+  /// In en, this message translates to:
+  /// **'Catechism'**
+  String get documentCatechism;
+
+  /// No description provided for @documentCreed.
+  ///
+  /// In en, this message translates to:
+  /// **'Historic creed'**
+  String get documentCreed;
+
+  /// No description provided for @documentHistorical.
+  ///
+  /// In en, this message translates to:
+  /// **'Reformed document'**
+  String get documentHistorical;
+
+  /// No description provided for @documentCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection'**
+  String get documentCollection;
+
+  /// No description provided for @readingProgressError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load reading progress.'**
+  String get readingProgressError;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get retry;
+
+  /// No description provided for @loadingReadingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading reading progress'**
+  String get loadingReadingProgress;
 }
 
 class _AppLocalizationsDelegate

@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+
+/// Provides touch feedback while Home destinations remain presentational.
+class HomeAction extends StatelessWidget {
+  const HomeAction({required this.child, this.decoration, super.key});
+
+  final Widget child;
+  final BoxDecoration? decoration;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: Colors.transparent,
+    child: Ink(
+      decoration: decoration,
+      child: InkWell(
+        onTap: () {},
+        borderRadius:
+            decoration?.borderRadius?.resolve(Directionality.of(context)) ??
+            BorderRadius.circular(8),
+        child: child,
+      ),
+    ),
+  );
+}

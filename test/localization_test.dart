@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pactantes/main.dart';
+import 'package:pactantes/core/library/repository/document_catalog_local_repository.dart';
+
+import 'package:pactantes/features/home/repository/reading_progress_local_repository.dart';
+
+import 'package:pactantes/features/home/models/reading_progress.dart';
+import 'package:pactantes/features/home/view_models/home_view_model.dart';
 
 void main() {
-  final Map<Locale, String> greetings = <Locale, String>{
-    const Locale('pt', 'BR'): 'Olá, mundo!',
-    const Locale('pt', 'PT'): 'Olá, mundo!',
-    const Locale('en', 'US'): 'Hello World!',
-    const Locale('en', 'GB'): 'Hello World!',
-    const Locale('es', 'ES'): '¡Hola, mundo!',
-    const Locale('es', 'PY'): '¡Hola, mundo!',
-    const Locale('fr', 'FR'): 'Olá, mundo!',
+  final Map<Locale, String> homeHeadings = <Locale, String>{
+    const Locale('pt', 'BR'): 'Crescendo em Graça e Verdade',
+    const Locale('pt', 'PT'): 'Crescendo em Graça e Verdade',
+    const Locale('en', 'US'): 'Growing in Grace and Truth',
+    const Locale('en', 'GB'): 'Growing in Grace and Truth',
+    const Locale('es', 'ES'): 'Creciendo en Gracia y Verdad',
+    const Locale('es', 'PY'): 'Creciendo en Gracia y Verdad',
+    const Locale('fr', 'FR'): 'Crescendo em Graça e Verdade',
   };
 
-  for (final MapEntry<Locale, String> entry in greetings.entries) {
+  for (final MapEntry<Locale, String> entry in homeHeadings.entries) {
     testWidgets('resolves device locale ${entry.key}', (
       WidgetTester tester,
     ) async {
       tester.platformDispatcher.localesTestValue = <Locale>[entry.key];
       addTearDown(tester.platformDispatcher.clearLocalesTestValue);
-      await tester.pumpWidget(const MainApp());
+      await tester.pumpWidget(
+        MainApp(
+          createHomeViewModel: () => HomeViewModel(
+            _EmptyRepository(),
+            const DocumentCatalogLocalRepositoryImpl(),
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
       expect(find.text(entry.value), findsOneWidget);
       final BuildContext context = tester.element(find.byType(Scaffold));
@@ -47,9 +60,16 @@ void main() {
       Locale('en', 'US'),
     ];
     addTearDown(tester.platformDispatcher.clearLocalesTestValue);
-    await tester.pumpWidget(const MainApp());
+    await tester.pumpWidget(
+      MainApp(
+        createHomeViewModel: () => HomeViewModel(
+          _EmptyRepository(),
+          const DocumentCatalogLocalRepositoryImpl(),
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
-    expect(find.text('¡Hola, mundo!'), findsOneWidget);
+    expect(find.text('Creciendo en Gracia y Verdad'), findsOneWidget);
   });
 
   testWidgets('updates when the device language changes', (
@@ -57,11 +77,23 @@ void main() {
   ) async {
     tester.platformDispatcher.localesTestValue = const <Locale>[Locale('pt')];
     addTearDown(tester.platformDispatcher.clearLocalesTestValue);
-    await tester.pumpWidget(const MainApp());
+    await tester.pumpWidget(
+      MainApp(
+        createHomeViewModel: () => HomeViewModel(
+          _EmptyRepository(),
+          const DocumentCatalogLocalRepositoryImpl(),
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
-    expect(find.text('Olá, mundo!'), findsOneWidget);
+    expect(find.text('Crescendo em Graça e Verdade'), findsOneWidget);
     tester.platformDispatcher.localesTestValue = const <Locale>[Locale('en')];
     await tester.pumpAndSettle();
-    expect(find.text('Hello World!'), findsOneWidget);
+    expect(find.text('Growing in Grace and Truth'), findsOneWidget);
   });
+}
+
+class _EmptyRepository implements ReadingProgressLocalRepository {
+  @override
+  Future<List<ReadingProgress>> read() async => const <ReadingProgress>[];
 }
