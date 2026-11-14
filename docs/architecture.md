@@ -31,7 +31,8 @@ Use `View → ViewModel → Service → Repository` only for real cross-feature 
 
 ## Local and remote repositories
 
-- Define a local repository interface for every implemented data feature, for example `BibleLocalRepository` with `SqliteBibleLocalRepository` as its implementation. Add `BibleRemoteRepository` and its implementation only if that feature needs a remote API. Apply the same naming pattern to documents, search, and other persisted features.
+- Define a local repository interface for every implemented data feature, for example `BibleLocalRepository` with `BibleLocalRepositoryImpl` as its implementation. Add `BibleRemoteRepository` and its implementation only if that feature needs a remote API. Apply the same naming pattern to documents, search, and other persisted features.
+- Use the singular `repository/` folder. Keep each repository interface and its implementation in the same file, named after the interface in snake_case (for example, `reading_progress_local_repository.dart`). Name contracts `<Feature>LocalRepository` or `<Feature>RemoteRepository` and their implementations `<Feature>LocalRepositoryImpl` or `<Feature>RemoteRepositoryImpl`, such as `ReadingProgressLocalRepositoryImpl`.
 - Inject these contracts into the consuming ViewModel or coordinating Service. Keep methods specific to the feature and consumer; read-only repositories do not need write methods.
 - Keep local and remote contracts separate where their capabilities or guarantees differ. Use a shared narrow interface only when the implementations genuinely satisfy the same contract.
 - When a feature needs synchronization or fallback, put that coordination in a focused Service. A local repository must not silently make network requests, and a remote repository must not own local persistence.
@@ -89,12 +90,12 @@ lib/
       view_models/
     bible/
       models/
-      repos/
+      repository/
       views/
       view_models/
     library/
       models/
-      repos/
+      repository/
       views/
       view_models/
     reader/
@@ -102,7 +103,7 @@ lib/
       view_models/
     search/
       models/
-      repos/
+      repository/
       views/
       view_models/
     community/        # only when implemented
@@ -123,3 +124,17 @@ This config localizes the interface; it does not translate or alter the licensed
 ## Community boundaries (future)
 
 Separate public church profiles from member-only information. Account identity, church membership, admin permissions, prayer request visibility and birthday visibility must be authorized server-side. Never rely on a hidden Flutter button as access control. Do not invent API routes or fields; document contracts once the backend exists.
+
+## Shared document catalog
+
+The read-only `DocumentCatalogLocalRepository` in `core/library` owns metadata lookup, availability, type filtering, and collection membership. `DocumentCatalogLocalRepositoryImpl` registers the five initial Spanish resources with stable IDs. Collection queries return the existing member objects by `collectionId`; a collection is not additional reading content. Westminster Standards has a stable collection ID without adding an unrequested sixth catalog entry. Unknown unit counts are null; only Heidelberg's 129 questions are established. Its traditional 52 Lord's Days are not yet modeled because the current UI does not consume that grouping.
+
+All initial entries remain unavailable: structured content and a reader have not been integrated. PDF presence does not establish reading availability. The shared catalog has no PDF parsing, database, network, or reader dependency. Spanish document titles describe registered resources and remain independent of the interface language; interface labels and unit descriptions use gen-l10n. A translated title must never imply translated reading content.
+
+## Home reading-progress contract
+
+Home reads the `reading_progress` SharedPreferences string through an injected, read-only `PreferencesReader` adapter and `ReadingProgressLocalRepository`. The JSON may contain one object or a list. Valid records require nonempty `documentId` and `sectionId`, a positive integer `paragraph`, a finite numeric `progress`, and a parseable ISO `lastReadAt` string. An optional `sectionTitle` describes the saved position; otherwise Home shows the paragraph. Persisted document titles are ignored: the catalog is the source of truth. Older records containing document titles remain compatible. `progress` is a fraction (`0.68` means 68%) and is clamped to 0–1 for presentation. Nothing is seeded or written by Home.
+
+The Home ViewModel resolves saved IDs through the catalog and ignores invalid, unknown, unavailable, or collection records. When valid progress exists it supplies continuing items; otherwise it supplies available individual documents to the same reading carousel. Per the requested presentational Home behavior, when no readable documents exist it falls back to registered individual catalog previews, without changing `isAvailable` or enabling navigation. Collections are excluded to avoid duplicating their member content. These previews are metadata, not readable content or saved progress.
+
+Progress loading distinguishes missing or malformed saved data from storage failures. The preferences adapter translates storage exceptions into an application-owned failure. Home exposes loading and recoverable error states and allows retry on the same ViewModel, while preventing concurrent reads.
