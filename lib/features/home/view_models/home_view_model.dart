@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../../core/library/models/reading_document.dart';
 import '../../../core/library/repository/document_catalog_local_repository.dart';
 import '../models/home_reading_item.dart';
-import '../models/reading_progress.dart';
+import '../../../core/reading_progress/models/reading_progress.dart';
 import '../repository/reading_progress_local_repository.dart';
 
 enum HomeReadingState { initial, loading, ready, error }

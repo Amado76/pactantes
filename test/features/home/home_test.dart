@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pactantes/core/preferences/preferences_reader.dart';
 import 'package:pactantes/design_system/theme/app_theme.dart';
-import 'package:pactantes/features/home/models/reading_progress.dart';
+import 'package:pactantes/core/reading_progress/models/reading_progress.dart';
 import 'package:pactantes/features/home/repository/reading_progress_local_repository.dart';
 import 'package:pactantes/features/home/view_models/home_view_model.dart';
 import 'package:pactantes/features/home/views/home_view.dart';

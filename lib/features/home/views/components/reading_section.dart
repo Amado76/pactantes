@@ -4,7 +4,7 @@ import '../../../../design_system/theme/app_theme.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../core/library/models/reading_document.dart';
 import '../../models/home_reading_item.dart';
-import '../../models/reading_progress.dart';
+import '../../../../core/reading_progress/models/reading_progress.dart';
 import 'home_action.dart';
 
 class ReadingSection extends StatefulWidget {

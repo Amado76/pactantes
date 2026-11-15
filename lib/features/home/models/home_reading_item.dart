@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../core/library/models/reading_document.dart';
-import 'reading_progress.dart';
+import '../../../core/reading_progress/models/reading_progress.dart';
 
 @immutable
 class HomeReadingItem {

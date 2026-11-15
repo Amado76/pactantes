@@ -29,6 +29,15 @@ class ReadingProgress {
   double get fraction => progress.isFinite ? progress.clamp(0.0, 1.0) : 0;
   int get percentage => (fraction * 100).round();
 
+  Map<String, Object> toJson() => <String, Object>{
+    'documentId': documentId,
+    'sectionId': sectionId,
+    'sectionTitle': sectionTitle,
+    'paragraph': paragraph,
+    'progress': progress,
+    'lastReadAt': lastReadAt.toUtc().toIso8601String(),
+  };
+
   static ReadingProgress? fromJson(Object? value) {
     if (value is! Map<String, Object?>) return null;
     final Object? documentId = value['documentId'];

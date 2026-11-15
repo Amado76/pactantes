@@ -5,7 +5,7 @@ import 'package:pactantes/core/library/repository/document_catalog_local_reposit
 
 import 'package:pactantes/features/home/repository/reading_progress_local_repository.dart';
 
-import 'package:pactantes/features/home/models/reading_progress.dart';
+import 'package:pactantes/core/reading_progress/models/reading_progress.dart';
 import 'package:pactantes/features/home/view_models/home_view_model.dart';
 
 void main() {
