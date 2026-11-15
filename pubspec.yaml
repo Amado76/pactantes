@@ -13,18 +13,23 @@ dependencies:
     sdk: flutter
   get_it: ^9.3.0
   intl: any
+  path: ^1.9.1
+  share_plus: ^13.3.1
   shared_preferences: ^2.5.6
+  sqflite: ^2.4.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  sqflite_common_ffi: ^2.4.7
 
 flutter:
   generate: true
   uses-material-design: true
   assets:
     - assets/logo/pactantes.png
+    - assets/db/reformed_documents.db
   fonts:
     - family: SourceSerif4
       fonts:
