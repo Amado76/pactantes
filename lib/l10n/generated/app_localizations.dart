@@ -297,6 +297,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading reading progress'**
   String get loadingReadingProgress;
+
+  /// No description provided for @readerSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading settings'**
+  String get readerSettings;
+
+  /// No description provided for @readerTextSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size'**
+  String get readerTextSize;
+
+  /// No description provided for @readerLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get readerLight;
+
+  /// No description provided for @readerPaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Paper'**
+  String get readerPaper;
+
+  /// No description provided for @readerDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get readerDark;
+
+  /// No description provided for @readerSpacing.
+  ///
+  /// In en, this message translates to:
+  /// **'Spacing'**
+  String get readerSpacing;
+
+  /// No description provided for @readerCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Compact'**
+  String get readerCompact;
+
+  /// No description provided for @readerNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get readerNormal;
+
+  /// No description provided for @readerWide.
+  ///
+  /// In en, this message translates to:
+  /// **'Wide'**
+  String get readerWide;
+
+  /// No description provided for @readerAddFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get readerAddFavorite;
+
+  /// No description provided for @readerRemoveFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get readerRemoveFavorite;
+
+  /// No description provided for @readerCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy text'**
+  String get readerCopy;
+
+  /// No description provided for @readerCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Text copied'**
+  String get readerCopied;
+
+  /// No description provided for @readerShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get readerShare;
+
+  /// No description provided for @readerClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get readerClose;
+
+  /// No description provided for @readerPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous unit'**
+  String get readerPrevious;
+
+  /// No description provided for @readerNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next unit'**
+  String get readerNext;
+
+  /// No description provided for @readerReferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Biblical references:'**
+  String get readerReferences;
+
+  /// No description provided for @readerQuestionPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Q.'**
+  String get readerQuestionPrefix;
+
+  /// No description provided for @readerAnswerPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'A.'**
+  String get readerAnswerPrefix;
+
+  /// No description provided for @readerAttribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared from Pactantes — Reformed Resources.'**
+  String get readerAttribution;
+
+  /// No description provided for @readerLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open this document.'**
+  String get readerLoadError;
+
+  /// No description provided for @readerSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save your changes. Please try again.'**
+  String get readerSaveError;
+
+  /// No description provided for @readerActionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete this action. Please try again.'**
+  String get readerActionError;
+
+  /// No description provided for @readerDecreaseSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Decrease text size'**
+  String get readerDecreaseSize;
+
+  /// No description provided for @readerIncreaseSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase text size'**
+  String get readerIncreaseSize;
+
+  /// No description provided for @readerNavigation.
+  ///
+  /// In en, this message translates to:
+  /// **'Document navigation'**
+  String get readerNavigation;
+
+  /// No description provided for @readerTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get readerTheme;
+
+  /// No description provided for @readerTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation'**
+  String get readerTranslation;
+
+  /// No description provided for @readerDeviceLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Device language'**
+  String get readerDeviceLanguage;
+
+  /// No description provided for @readerEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get readerEnglish;
+
+  /// No description provided for @readerPortuguese.
+  ///
+  /// In en, this message translates to:
+  /// **'Portuguese'**
+  String get readerPortuguese;
+
+  /// No description provided for @readerSpanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get readerSpanish;
+
+  /// No description provided for @homeResumeStudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume study'**
+  String get homeResumeStudy;
+
+  /// No description provided for @homeBeginStudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Begin study'**
+  String get homeBeginStudy;
+
+  /// No description provided for @homeConfessionsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Confessional texts'**
+  String get homeConfessionsSummary;
+
+  /// No description provided for @homeCatechismsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions and answers'**
+  String get homeCatechismsSummary;
+
+  /// No description provided for @homeCreedsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Statements of faith'**
+  String get homeCreedsSummary;
+
+  /// No description provided for @homeDocumentsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Historical texts'**
+  String get homeDocumentsSummary;
+
+  /// No description provided for @homeScriptureQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'“For by grace are ye saved through faith; and that not of yourselves: it is the gift of God:”'**
+  String get homeScriptureQuote;
+
+  /// No description provided for @homeScriptureReference.
+  ///
+  /// In en, this message translates to:
+  /// **'EPHESIANS 2:8'**
+  String get homeScriptureReference;
+
+  /// Bible book display name for a stable corpus book code; unknown codes remain unchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{book, select, book1Chr{1 Chronicles} book1Cor{1 Corinthians} book1John{1 John} book1Kgs{1 Kings} book1Pet{1 Peter} book1Sam{1 Samuel} book1Thess{1 Thessalonians} book1Tim{1 Timothy} book2Chr{2 Chronicles} book2Cor{2 Corinthians} book2Kgs{2 Kings} book2Pet{2 Peter} book2Sam{2 Samuel} book2Thess{2 Thessalonians} book2Tim{2 Timothy} bookActs{Acts} bookCol{Colossians} bookDan{Daniel} bookDeut{Deuteronomy} bookEccl{Ecclesiastes} bookEph{Ephesians} bookExod{Exodus} bookEzek{Ezekiel} bookGal{Galatians} bookGen{Genesis} bookHab{Habakkuk} bookHeb{Hebrews} bookIsa{Isaiah} bookJas{James} bookJer{Jeremiah} bookJob{Job} bookJoel{Joel} bookJohn{John} bookJosh{Joshua} bookJude{Jude} bookLev{Leviticus} bookLuke{Luke} bookMark{Mark} bookMatt{Matthew} bookMic{Micah} bookNah{Nahum} bookNum{Numbers} bookPhil{Philippians} bookProv{Proverbs} bookPs{Psalms} bookRev{Revelation} bookRom{Romans} bookTitus{Titus} bookZech{Zechariah} other{{code}}}'**
+  String bibleBookName(String book, String code);
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
 }
 
 class _AppLocalizationsDelegate

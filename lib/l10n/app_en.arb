@@ -70,5 +70,59 @@
   },
   "readingProgressError": "Could not load reading progress.",
   "retry": "Try again",
-  "loadingReadingProgress": "Loading reading progress"
+  "loadingReadingProgress": "Loading reading progress",
+  "readerSettings": "Reading settings",
+  "readerTextSize": "Text size",
+  "readerLight": "Light",
+  "readerPaper": "Paper",
+  "readerDark": "Dark",
+  "readerSpacing": "Spacing",
+  "readerCompact": "Compact",
+  "readerNormal": "Normal",
+  "readerWide": "Wide",
+  "readerAddFavorite": "Add to favorites",
+  "readerRemoveFavorite": "Remove from favorites",
+  "readerCopy": "Copy text",
+  "readerCopied": "Text copied",
+  "readerShare": "Share",
+  "readerClose": "Close",
+  "readerPrevious": "Previous unit",
+  "readerNext": "Next unit",
+  "readerReferences": "Biblical references:",
+  "readerQuestionPrefix": "Q.",
+  "readerAnswerPrefix": "A.",
+  "readerAttribution": "Shared from Pactantes — Reformed Resources.",
+  "readerLoadError": "Could not open this document.",
+  "readerSaveError": "Could not save your changes. Please try again.",
+  "readerActionError": "Could not complete this action. Please try again.",
+  "readerDecreaseSize": "Decrease text size",
+  "readerIncreaseSize": "Increase text size",
+  "readerNavigation": "Document navigation",
+  "readerTheme": "Theme",
+  "readerTranslation": "Translation",
+  "readerDeviceLanguage": "Device language",
+  "readerEnglish": "English",
+  "readerPortuguese": "Portuguese",
+  "readerSpanish": "Spanish",
+  "homeResumeStudy": "Resume study",
+  "homeBeginStudy": "Begin study",
+  "homeConfessionsSummary": "Confessional texts",
+  "homeCatechismsSummary": "Questions and answers",
+  "homeCreedsSummary": "Statements of faith",
+  "homeDocumentsSummary": "Historical texts",
+  "homeScriptureQuote": "“For by grace are ye saved through faith; and that not of yourselves: it is the gift of God:”",
+  "homeScriptureReference": "EPHESIANS 2:8",
+  "bibleBookName": "{book, select, book1Chr{1 Chronicles} book1Cor{1 Corinthians} book1John{1 John} book1Kgs{1 Kings} book1Pet{1 Peter} book1Sam{1 Samuel} book1Thess{1 Thessalonians} book1Tim{1 Timothy} book2Chr{2 Chronicles} book2Cor{2 Corinthians} book2Kgs{2 Kings} book2Pet{2 Peter} book2Sam{2 Samuel} book2Thess{2 Thessalonians} book2Tim{2 Timothy} bookActs{Acts} bookCol{Colossians} bookDan{Daniel} bookDeut{Deuteronomy} bookEccl{Ecclesiastes} bookEph{Ephesians} bookExod{Exodus} bookEzek{Ezekiel} bookGal{Galatians} bookGen{Genesis} bookHab{Habakkuk} bookHeb{Hebrews} bookIsa{Isaiah} bookJas{James} bookJer{Jeremiah} bookJob{Job} bookJoel{Joel} bookJohn{John} bookJosh{Joshua} bookJude{Jude} bookLev{Leviticus} bookLuke{Luke} bookMark{Mark} bookMatt{Matthew} bookMic{Micah} bookNah{Nahum} bookNum{Numbers} bookPhil{Philippians} bookProv{Proverbs} bookPs{Psalms} bookRev{Revelation} bookRom{Romans} bookTitus{Titus} bookZech{Zechariah} other{{code}}}",
+  "@bibleBookName": {
+    "description": "Bible book display name for a stable corpus book code; unknown codes remain unchanged.",
+    "placeholders": {
+      "book": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "language": "Language"
 }

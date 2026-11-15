@@ -119,4 +119,191 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get loadingReadingProgress => 'Cargando el progreso de lectura';
+
+  @override
+  String get readerSettings => 'Ajustes de lectura';
+
+  @override
+  String get readerTextSize => 'Tamaño del texto';
+
+  @override
+  String get readerLight => 'Claro';
+
+  @override
+  String get readerPaper => 'Papel';
+
+  @override
+  String get readerDark => 'Oscuro';
+
+  @override
+  String get readerSpacing => 'Espaciado';
+
+  @override
+  String get readerCompact => 'Compacto';
+
+  @override
+  String get readerNormal => 'Normal';
+
+  @override
+  String get readerWide => 'Amplio';
+
+  @override
+  String get readerAddFavorite => 'Añadir a favoritos';
+
+  @override
+  String get readerRemoveFavorite => 'Quitar de favoritos';
+
+  @override
+  String get readerCopy => 'Copiar texto';
+
+  @override
+  String get readerCopied => 'Texto copiado';
+
+  @override
+  String get readerShare => 'Compartir';
+
+  @override
+  String get readerClose => 'Cerrar';
+
+  @override
+  String get readerPrevious => 'Unidad anterior';
+
+  @override
+  String get readerNext => 'Unidad siguiente';
+
+  @override
+  String get readerReferences => 'Referencias bíblicas:';
+
+  @override
+  String get readerQuestionPrefix => 'P.';
+
+  @override
+  String get readerAnswerPrefix => 'R.';
+
+  @override
+  String get readerAttribution =>
+      'Compartido desde Pactantes — Recursos Reformados.';
+
+  @override
+  String get readerLoadError => 'No se pudo abrir este documento.';
+
+  @override
+  String get readerSaveError =>
+      'No se pudieron guardar los cambios. Inténtalo de nuevo.';
+
+  @override
+  String get readerActionError =>
+      'No se pudo completar esta acción. Inténtalo de nuevo.';
+
+  @override
+  String get readerDecreaseSize => 'Reducir tamaño del texto';
+
+  @override
+  String get readerIncreaseSize => 'Aumentar tamaño del texto';
+
+  @override
+  String get readerNavigation => 'Navegación del documento';
+
+  @override
+  String get readerTheme => 'Tema';
+
+  @override
+  String get readerTranslation => 'Traducción';
+
+  @override
+  String get readerDeviceLanguage => 'Idioma del dispositivo';
+
+  @override
+  String get readerEnglish => 'Inglés';
+
+  @override
+  String get readerPortuguese => 'Portugués';
+
+  @override
+  String get readerSpanish => 'Español';
+
+  @override
+  String get homeResumeStudy => 'Retomar estudio';
+
+  @override
+  String get homeBeginStudy => 'Comenzar estudio';
+
+  @override
+  String get homeConfessionsSummary => 'Textos confesionales';
+
+  @override
+  String get homeCatechismsSummary => 'Preguntas y respuestas';
+
+  @override
+  String get homeCreedsSummary => 'Símbolos de la fe';
+
+  @override
+  String get homeDocumentsSummary => 'Textos históricos';
+
+  @override
+  String get homeScriptureQuote =>
+      '“Porque por gracia sois salvos por la fe; y esto no de vosotros, pues es don de Dios:”';
+
+  @override
+  String get homeScriptureReference => 'EFESIOS 2:8';
+
+  @override
+  String bibleBookName(String book, String code) {
+    String _temp0 = intl.Intl.selectLogic(book, {
+      'book1Chr': '1 Crónicas',
+      'book1Cor': '1 Corintios',
+      'book1John': '1 Juan',
+      'book1Kgs': '1 Reyes',
+      'book1Pet': '1 Pedro',
+      'book1Sam': '1 Samuel',
+      'book1Thess': '1 Tesalonicenses',
+      'book1Tim': '1 Timoteo',
+      'book2Chr': '2 Crónicas',
+      'book2Cor': '2 Corintios',
+      'book2Kgs': '2 Reyes',
+      'book2Pet': '2 Pedro',
+      'book2Sam': '2 Samuel',
+      'book2Thess': '2 Tesalonicenses',
+      'book2Tim': '2 Timoteo',
+      'bookActs': 'Hechos',
+      'bookCol': 'Colosenses',
+      'bookDan': 'Daniel',
+      'bookDeut': 'Deuteronomio',
+      'bookEccl': 'Eclesiastés',
+      'bookEph': 'Efesios',
+      'bookExod': 'Éxodo',
+      'bookEzek': 'Ezequiel',
+      'bookGal': 'Gálatas',
+      'bookGen': 'Génesis',
+      'bookHab': 'Habacuc',
+      'bookHeb': 'Hebreos',
+      'bookIsa': 'Isaías',
+      'bookJas': 'Santiago',
+      'bookJer': 'Jeremías',
+      'bookJob': 'Job',
+      'bookJoel': 'Joel',
+      'bookJohn': 'Juan',
+      'bookJosh': 'Josué',
+      'bookJude': 'Judas',
+      'bookLev': 'Levítico',
+      'bookLuke': 'Lucas',
+      'bookMark': 'Marcos',
+      'bookMatt': 'Mateo',
+      'bookMic': 'Miqueas',
+      'bookNah': 'Nahúm',
+      'bookNum': 'Números',
+      'bookPhil': 'Filipenses',
+      'bookProv': 'Proverbios',
+      'bookPs': 'Salmos',
+      'bookRev': 'Apocalipsis',
+      'bookRom': 'Romanos',
+      'bookTitus': 'Tito',
+      'bookZech': 'Zacarías',
+      'other': '$code',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get language => 'Idioma';
 }
