@@ -26,8 +26,8 @@ class DocumentCatalogLocalRepositoryImpl
       title: 'Catecismo de Heidelberg',
       type: DocumentType.catechism,
       collectionId: 'three-forms-of-unity',
-      totalUnits: 129,
-      isAvailable: false,
+      totalUnits: null,
+      isAvailable: true,
     ),
     ReadingDocument(
       id: 'canons-of-dort',

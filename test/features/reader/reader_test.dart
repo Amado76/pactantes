@@ -12,6 +12,8 @@ import 'package:pactantes/features/reader/repository/sources/reading_content_sou
 import 'package:pactantes/features/reader/repository/sources/heidelberg_reading_content_source.dart';
 import 'package:pactantes/l10n/localized_bible_book_names.dart';
 import 'package:pactantes/core/preferences/preferences_store.dart';
+import 'package:pactantes/core/library/repository/document_catalog_local_repository.dart';
+import 'package:pactantes/features/home/view_models/home_view_model.dart';
 import 'package:pactantes/features/home/repository/reading_progress_local_repository.dart';
 import 'package:pactantes/core/preferences/shared_preferences_reader.dart';
 import 'package:pactantes/features/reader/models/reading_content.dart';
@@ -893,6 +895,49 @@ void main() {
         expect(document.units.last.number, 128);
         expect(document.units[79].id, 'question-81');
         expect(document.units[79].number, 80);
+        final MemoryStore progressStore = MemoryStore();
+        final ReaderPreferencesLocalRepository preferences =
+            ReaderPreferencesLocalRepositoryImpl(progressStore);
+        final ReaderProgressLocalRepository progress =
+            ReaderProgressLocalRepositoryImpl(progressStore);
+        final ReaderContentLocalRepository content = contentRepository(
+          database,
+        );
+        await preferences.save(
+          const ReaderPreferences(translation: ReaderTranslation.english),
+        );
+        final ReaderViewModel english = ReaderViewModel(
+          content,
+          preferences,
+          ReaderFavoritesLocalRepositoryImpl(progressStore),
+          progress,
+        );
+        await english.initialize('heidelberg-catechism', unitId: 'question-80');
+        await english.pendingWrites;
+        english.dispose();
+        final HomeViewModel home = HomeViewModel(
+          ReadingProgressLocalRepositoryImpl(progressStore),
+          const DocumentCatalogLocalRepositoryImpl(),
+          readerPreferencesRepository: preferences,
+          readerContentRepository: content,
+        );
+        await home.initialize(languageCode: 'en');
+        expect(await home.changeTranslation(ReaderTranslation.spanish), isTrue);
+        expect(home.readingItems.single.unit!.id, 'question-81');
+        expect(await progress.readUnit('heidelberg-catechism'), 'question-80');
+        final ReaderViewModel spanish = ReaderViewModel(
+          content,
+          preferences,
+          ReaderFavoritesLocalRepositoryImpl(progressStore),
+          progress,
+        );
+        await spanish.initialize('heidelberg-catechism');
+        expect(spanish.unit!.id, 'question-81');
+        await spanish.pendingWrites;
+        expect(await progress.readUnit('heidelberg-catechism'), 'question-81');
+        spanish.dispose();
+        home.dispose();
+
         final ReadingContent reopened = await contentRepository(
           SqfliteReadingDatabase(factory, rootBundle),
         ).read('heidelberg-catechism');

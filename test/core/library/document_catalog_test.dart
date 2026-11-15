@@ -29,20 +29,18 @@ void main() {
     );
     expect(() => catalog.all.clear(), throwsUnsupportedError);
   });
-  test('nothing is readable until structured content and a reader exist', () {
-    expect(catalog.available, isEmpty);
+  test('only the integrated Spanish Heidelberg edition is readable', () {
     expect(
-      catalog.all.every((ReadingDocument document) => !document.isAvailable),
-      isTrue,
+      catalog.available.map((ReadingDocument document) => document.id),
+      <String>['heidelberg-catechism'],
     );
   });
-  test('only Heidelberg has an established unit count', () {
-    expect(catalog.findById('heidelberg-catechism')?.totalUnits, 129);
+  test('catalog does not guess edition-specific reading totals', () {
     expect(
-      catalog.all.where(
-        (ReadingDocument document) => document.totalUnits != null,
+      catalog.all.every(
+        (ReadingDocument document) => document.totalUnits == null,
       ),
-      hasLength(1),
+      isTrue,
     );
   });
   test('lookup resolves metadata and safely returns null for unknown IDs', () {

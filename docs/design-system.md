@@ -58,7 +58,7 @@ Use `ThemeExtension` for missing semantic roles such as paper/ink, rather than r
 - Provide clear chapter/section navigation and verse/paragraph anchors.
 - Support user text scaling and preserve document structure; avoid truncating canonical passages.
 - Bookmark/progress controls must accurately reflect saved vs unsaved state.
-- Consider dark reading mode as a later feature, not an implied MVP commitment.
+- Reader light, paper, and dark palettes are centralized in `ReaderTheme`, independent of the global application theme. See [Reader](reader.md).
 
 ## Accessibility and motion
 
@@ -79,8 +79,10 @@ Generated with the built-in ImageGen tool from the user-provided open-book refer
 
 Use case: logo-brand. Asset type: transparent PNG brand mark for the Pactantes Flutter app header. Input image: reference image only, recreate its exact minimal open-book symbol as a clean high-resolution asset. Subject: four slender curved strokes forming two facing open pages: upper left and upper right strokes muted red #A34C4F; lower left and lower right strokes navy #263E59, converging gently at a central fold with small natural gaps. Preserve the simple shallow curves, balanced symmetry and wide approximately 4:1 silhouette seen in the supplied reference. Flat thin rounded strokes, clean antialiasing. Symbol only, no lettering, no frame, no shadow, no gradients, no additional pages or elements. True transparent background, including between strokes. Tightly framed around the symbol with only a small transparent margin, wide landscape canvas. Output intended to display approximately 52 logical pixels wide by 18 high. Save generated PNG to filesystem and report its local path.
 
-## Home reading carousel states
+## Home reference adaptation
 
-The existing reading cards serve both Start reading and Continue reading, with shared typography, dimensions, spacing, decoration, touch feedback, and pagination. Unstarted items show a starting-position label and available catalog metadata instead of a progress bar. Catechisms start at question 1; documents without established structure use a generic beginning label. Missing counts are never rendered as zero. Registered catalog previews remain visible when nothing is readable, as requested, while availability and navigation remain disabled. Spanish content titles are preserved across interface locales.
+Home places the larger book mark at the center of a compact 48-pixel AppBar, with the language overflow menu at the right. The serif brand title, tracked uppercase subtitle, and italic introduction sit immediately below the bar. A short divider and compact spacing separate the subtitle and introduction. A featured reading card precedes the compact navy Bible entry. The library uses a two-column grid with neutral bordered text-only tiles; it stacks at narrow widths or enlarged text sizes. The footer shows Ephesians 2:8 above the fixed main navigation.
 
-The Home reading carousel scrolls horizontally with cards sized by their actual widget layout. Its height follows the tallest card without duplicating text measurement or spacing rules. Pagination indicates the current card; replacing the item list resets its scroll position and indicator.
+Reading cards use the actual bundled edition title, parent grouping, unit label, and question preview. Saved progress includes both a visible percentage and a progress bar, and stable section IDs still control resuming; an unstarted edition shows Begin study without inventing progress. Multiple reading records retain the existing horizontal carousel and pagination. Reader preferences control the edition independently of the interface locale.
+
+The Portuguese footer wording comes from the user's supplied reference. English uses the public-domain KJV text verified at https://www.biblegateway.com/passage/?search=Ephesians2%3A8&version=KJV; Spanish uses the public-domain Reina-Valera Antigua text verified at https://www.biblegateway.com/passage/?search=Efesios%202%3A8&version=RVA. These short bundled footer quotations do not imply an implemented SBT Bible reader or alter the catechism source text.

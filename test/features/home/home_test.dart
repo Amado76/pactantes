@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import '../../core/library/fake_document_catalog.dart';
 
-import 'package:pactantes/core/library/repository/document_catalog_local_repository.dart';
 import 'package:pactantes/features/home/models/home_reading_item.dart';
 
 import 'package:flutter/material.dart';
@@ -225,12 +224,12 @@ void main() {
       find.text('No se pudo cargar el progreso de lectura.'),
       findsOneWidget,
     );
-    expect(find.text('Comenzar a leer'), findsNothing);
+    expect(find.text('COMENZAR A LEER'), findsNothing);
     repository.fail = false;
     await tester.ensureVisible(find.text('Reintentar'));
     await tester.tap(find.text('Reintentar'));
     await tester.pumpAndSettle();
-    expect(find.text('Continuar leyendo'), findsOneWidget);
+    expect(find.text('CONTINUAR LEYENDO'), findsOneWidget);
     expect(find.text('68% COMPLETADO'), findsOneWidget);
     expect(find.text('Reintentar'), findsNothing);
   });
@@ -245,7 +244,7 @@ void main() {
       await render(tester, <ReadingProgress>[]);
       for (final String label in <String>[
         'Pactantes',
-        'Recursos Reformados',
+        'RECURSOS REFORMADOS',
         'Creciendo en Gracia y Verdad',
         'Biblia Santa',
         'Explorar la biblioteca',
@@ -256,8 +255,8 @@ void main() {
       ]) {
         expect(find.text(label), findsOneWidget);
       }
-      expect(find.text('Continuar leyendo'), findsNothing);
-      expect(find.text('Comenzar a leer'), findsOneWidget);
+      expect(find.text('CONTINUAR LEYENDO'), findsNothing);
+      expect(find.text('COMENZAR A LEER'), findsOneWidget);
       for (final String label in <String>[
         'Biblia Santa',
         'Ver todo',
@@ -292,7 +291,7 @@ void main() {
           FakePreferences(jsonEncode(record())),
         );
     await renderModel(tester, HomeViewModel(repository, readableCatalog()));
-    expect(find.text('Continuar leyendo'), findsOneWidget);
+    expect(find.text('CONTINUAR LEYENDO'), findsOneWidget);
     await renderModel(
       tester,
       HomeViewModel(
@@ -300,8 +299,8 @@ void main() {
         readableCatalog(),
       ),
     );
-    expect(find.text('Continuar leyendo'), findsNothing);
-    expect(find.text('Comenzar a leer'), findsOneWidget);
+    expect(find.text('CONTINUAR LEYENDO'), findsNothing);
+    expect(find.text('COMENZAR A LEER'), findsOneWidget);
     expect(find.byType(LinearProgressIndicator), findsNothing);
     expect(find.text('Biblia Santa'), findsOneWidget);
     expect(tester.takeException(), isNull);
@@ -333,7 +332,7 @@ void main() {
     () async {
       final HomeViewModel model = HomeViewModel(
         FakeRepository(<ReadingProgress>[]),
-        const DocumentCatalogLocalRepositoryImpl(),
+        FakeDocumentCatalog(),
       );
       addTearDown(model.dispose);
       await model.initialize();
@@ -404,7 +403,7 @@ void main() {
     'start reading reuses cards and shows metadata without progress',
     (WidgetTester tester) async {
       await render(tester, <ReadingProgress>[]);
-      expect(find.text('Comenzar a leer'), findsOneWidget);
+      expect(find.text('COMENZAR A LEER'), findsOneWidget);
       expect(find.byType(LinearProgressIndicator), findsNothing);
       expect(find.textContaining('COMPLETADO'), findsNothing);
       await tester.drag(
@@ -414,7 +413,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Catecismo de Heidelberg'), findsOneWidget);
       expect(find.text('Pregunta 1'), findsOneWidget);
-      expect(find.text('129 preguntas'), findsOneWidget);
+      expect(find.text('Catecismo'), findsOneWidget);
       await tester.tap(find.text('Catecismo de Heidelberg'));
       await tester.pumpAndSettle();
       expect(find.byType(HomeView), findsOneWidget);
@@ -426,7 +425,7 @@ void main() {
     WidgetTester tester,
   ) async {
     await render(tester, <ReadingProgress>[item()]);
-    expect(find.text('Continuar leyendo'), findsOneWidget);
+    expect(find.text('CONTINUAR LEYENDO'), findsOneWidget);
     expect(find.text('68% COMPLETADO'), findsOneWidget);
     expect(find.text('Párrafo 6'), findsOneWidget);
     expect(find.byKey(const Key('reading-pagination')), findsNothing);

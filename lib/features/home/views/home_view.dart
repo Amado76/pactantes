@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 
 import '../../../design_system/theme/app_theme.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../reader/models/reader_preferences.dart';
+import '../../reader/views/components/reader_translation_sheet.dart';
 import '../models/home_reading_item.dart';
 import '../view_models/home_view_model.dart';
 import 'components/reading_section.dart';
 import 'components/home_action.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({required this.viewModel, super.key});
+  const HomeView({required this.viewModel, this.onOpenReading, super.key});
 
   final HomeViewModel viewModel;
+  final ValueChanged<HomeReadingItem>? onOpenReading;
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -22,7 +25,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    unawaited(widget.viewModel.initialize());
   }
 
   @override
@@ -33,23 +35,98 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  String? _deviceLanguage;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final String language = Localizations.localeOf(context).languageCode;
+    if (_deviceLanguage == language) return;
+    _deviceLanguage = language;
+    unawaited(
+      widget.viewModel.initialize(refresh: true, languageCode: language),
+    );
+  }
+
+  Future<void> _translations() async {
+    final bool loaded = await widget.viewModel.loadTranslation();
+    if (!mounted) return;
+    if (!loaded) {
+      _translationError();
+      return;
+    }
+    final ReaderTranslation? selected =
+        await showModalBottomSheet<ReaderTranslation>(
+          context: context,
+          isScrollControlled: true,
+          useSafeArea: true,
+          builder: (BuildContext context) => ReaderTranslationSheet(
+            title: AppLocalizations.of(context).language,
+            selected: widget.viewModel.selectedTranslation,
+          ),
+        );
+    if (!mounted || selected == null) return;
+    final bool saved = await widget.viewModel.changeTranslation(selected);
+    if (mounted && !saved) _translationError();
+  }
+
+  void _translationError() => ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(AppLocalizations.of(context).readerActionError)),
+  );
+
   @override
   Widget build(BuildContext context) {
     final AppLocalizations strings = AppLocalizations.of(context);
     final TextTheme text = Theme.of(context).textTheme;
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        toolbarHeight: 48,
+        backgroundColor: AppColors.paper,
+        surfaceTintColor: AppColors.paper,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: Image.asset(
+          'assets/logo/pactantes.png',
+          width: 72,
+          height: 26,
+          excludeFromSemantics: true,
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: PopupMenuButton<bool>(
+              tooltip: strings.moreOptions,
+              icon: const Icon(Icons.more_vert, size: 20),
+              position: PopupMenuPosition.under,
+              onSelected: (_) => unawaited(_translations()),
+              itemBuilder: (_) => <PopupMenuEntry<bool>>[
+                PopupMenuItem<bool>(
+                  value: true,
+                  enabled: widget.viewModel.canChangeTranslation,
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(Icons.translate_outlined),
+                      const SizedBox(width: 12),
+                      Flexible(child: Text(strings.language)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: AppColors.border)),
         ),
         child: BottomNavigationBar(
           currentIndex: 0,
-          // Destinations are intentionally presentational in this phase.
-          onTap: (int index) {},
+          onTap: (_) {},
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: const Icon(Icons.home_outlined),
-              activeIcon: const Icon(Icons.home),
               label: strings.home,
             ),
             BottomNavigationBarItem(
@@ -57,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
               label: strings.bible,
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.book_outlined),
+              icon: const Icon(Icons.menu_book_outlined),
               label: strings.library,
             ),
             BottomNavigationBarItem(
@@ -72,74 +149,56 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       body: SafeArea(
+        top: false,
         bottom: false,
         child: Align(
           alignment: Alignment.topCenter,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 800),
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.page,
-                    12,
-                    AppSpacing.page,
-                    0,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
                   sliver: SliverToBoxAdapter(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 48,
-                                vertical: 12,
-                              ),
-                              child: Center(
-                                child: Column(
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/logo/pactantes.png',
-                                      width: 88,
-                                      height: 30,
-                                      excludeFromSemantics: true,
-                                      filterQuality: FilterQuality.high,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Pactantes',
-                                      style: text.headlineLarge,
-                                    ),
-                                    Text(
-                                      strings.brandSubtitle,
-                                      style: text.bodyLarge?.copyWith(
-                                        color: AppColors.mutedInk,
-                                      ),
-                                    ),
-                                  ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2, bottom: 4),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'Pactantes',
+                                style: text.headlineLarge?.copyWith(
+                                  fontSize: 30,
+                                  color: AppColors.navy,
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: IconButton(
-                                tooltip: strings.moreOptions,
-                                onPressed: () {},
-                                color: AppColors.ink,
-                                icon: const Icon(Icons.more_vert, size: 22),
+                              const SizedBox(height: 4),
+                              Text(
+                                strings.brandSubtitle.toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: text.bodyMedium?.copyWith(
+                                  fontSize: 11,
+                                  letterSpacing: 3,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: AppSpacing.small),
-                        Text(strings.introTitle, style: text.headlineSmall),
-                        const SizedBox(height: 4),
-                        Text(strings.introDescription, style: text.bodyMedium),
-                        const SizedBox(height: AppSpacing.medium),
-                        _BibleEntry(strings: strings),
+                        const Center(
+                          child: SizedBox(width: 220, child: Divider()),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
+                          child: Text(
+                            strings.introTitle,
+                            textAlign: TextAlign.center,
+                            style: text.bodyMedium?.copyWith(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -151,7 +210,7 @@ class _HomeViewState extends State<HomeView> {
                       if (widget.viewModel.readingState ==
                           HomeReadingState.loading) {
                         return Padding(
-                          padding: const EdgeInsets.all(AppSpacing.section),
+                          padding: const EdgeInsets.all(24),
                           child: Center(
                             child: CircularProgressIndicator(
                               semanticsLabel: strings.loadingReadingProgress,
@@ -162,7 +221,7 @@ class _HomeViewState extends State<HomeView> {
                       if (widget.viewModel.readingState ==
                           HomeReadingState.error) {
                         return Padding(
-                          padding: const EdgeInsets.all(AppSpacing.page),
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             children: <Widget>[
                               Text(strings.readingProgressError),
@@ -175,10 +234,9 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         );
                       }
-                      final List<HomeReadingItem> items =
-                          widget.viewModel.readingItems;
                       return ReadingSection(
-                        items: items,
+                        items: widget.viewModel.readingItems,
+                        onOpen: widget.onOpenReading,
                         title: widget.viewModel.hasReadingProgress
                             ? strings.continueReading
                             : strings.startReading,
@@ -187,14 +245,45 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.page,
-                    AppSpacing.section,
-                    AppSpacing.page,
-                    AppSpacing.section,
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+                  sliver: SliverToBoxAdapter(
+                    child: _BibleEntry(strings: strings),
                   ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   sliver: SliverToBoxAdapter(
                     child: _LibrarySection(strings: strings),
+                  ),
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 32, 16, 40),
+                    child: Column(
+                      children: <Widget>[
+                        const Divider(),
+                        const SizedBox(height: 36),
+                        Text(
+                          strings.homeScriptureQuote,
+                          textAlign: TextAlign.center,
+                          style: text.bodyMedium?.copyWith(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 14,
+                            height: 1.6,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          strings.homeScriptureReference,
+                          textAlign: TextAlign.center,
+                          style: text.bodyMedium?.copyWith(
+                            color: AppColors.softRed,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -209,134 +298,152 @@ class _HomeViewState extends State<HomeView> {
 class _BibleEntry extends StatelessWidget {
   const _BibleEntry({required this.strings});
   final AppLocalizations strings;
-
   @override
-  Widget build(BuildContext context) {
-    final TextTheme text = Theme.of(context).textTheme;
-    return HomeAction(
-      decoration: BoxDecoration(
-        color: AppColors.navy,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.page,
-          vertical: AppSpacing.medium,
-        ),
-        child: Row(
-          children: <Widget>[
-            const Icon(
-              Icons.import_contacts_outlined,
-              size: 30,
-              color: Colors.white,
-            ),
-            Container(
-              height: 36,
-              width: 1,
-              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.medium),
-              color: Colors.white30,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    strings.bibleTitle,
-                    style: text.titleLarge?.copyWith(color: Colors.white),
+  Widget build(BuildContext context) => HomeAction(
+    decoration: BoxDecoration(
+      color: AppColors.navy,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Row(
+        children: <Widget>[
+          const Icon(
+            Icons.import_contacts_outlined,
+            color: AppColors.surface,
+            size: 22,
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  strings.bibleTitle,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: AppColors.surface,
                   ),
-                  Text(
-                    strings.bibleEdition,
-                    style: text.bodyLarge?.copyWith(
-                      color: Colors.white.withValues(alpha: .85),
-                      fontSize: 14,
-                    ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  strings.bibleEdition,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.surface.withValues(alpha: .8),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const Icon(Icons.chevron_right, size: 20, color: Colors.white70),
-          ],
-        ),
+          ),
+          const Icon(Icons.chevron_right, size: 20, color: AppColors.surface),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
 
 class _LibrarySection extends StatelessWidget {
   const _LibrarySection({required this.strings});
   final AppLocalizations strings;
-
   @override
   Widget build(BuildContext context) {
-    final TextTheme text = Theme.of(context).textTheme;
-    final List<(IconData, String)> categories = <(IconData, String)>[
-      (Icons.description_outlined, strings.confessions),
-      (Icons.import_contacts_outlined, strings.catechisms),
-      (Icons.shield_outlined, strings.creeds),
-      (Icons.account_balance_outlined, strings.documents),
+    final List<(String, String)> categories = <(String, String)>[
+      (strings.confessions, strings.homeConfessionsSummary),
+      (strings.catechisms, strings.homeCatechismsSummary),
+      (strings.creeds, strings.homeCreedsSummary),
+      (strings.documents, strings.homeDocumentsSummary),
     ];
+    Widget card((String, String) category) => HomeAction(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              category.$1,
+              style: const TextStyle(fontSize: 14, color: AppColors.navy),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              category.$2,
+              style: const TextStyle(
+                fontSize: 12,
+                height: 1.4,
+                color: AppColors.mutedInk,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Row(
           children: <Widget>[
             Expanded(
-              child: Text(strings.exploreLibrary, style: text.titleLarge),
-            ),
-            const SizedBox(width: AppSpacing.small),
-            HomeAction(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 4,
+              child: Text(
+                strings.exploreLibrary,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.navy,
                 ),
-                child: Text(
-                  strings.seeAll,
-                  style: text.bodyLarge?.copyWith(
-                    color: AppColors.softRed,
-                    fontSize: 14,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    strings.seeAll,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.softRed,
+                    ),
                   ),
                 ),
               ),
             ),
           ],
         ),
-        for (final (int index, (IconData, String) category)
-            in categories.indexed)
-          Column(
-            children: <Widget>[
-              HomeAction(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: AppSpacing.small,
+        const SizedBox(height: 8),
+        LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final bool single =
+                constraints.maxWidth < 300 ||
+                MediaQuery.textScalerOf(context).scale(14) > 21;
+            return Column(
+              children: <Widget>[
+                for (int i = 0; i < categories.length; i += single ? 1 : 2)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: single
+                        ? card(categories[i])
+                        : IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Expanded(child: card(categories[i])),
+                                const SizedBox(width: 8),
+                                Expanded(child: card(categories[i + 1])),
+                              ],
+                            ),
+                          ),
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        category.$1,
-                        size: 22,
-                        color: index == 0 ? AppColors.softRed : AppColors.navy,
-                      ),
-                      const SizedBox(width: AppSpacing.medium),
-                      Expanded(child: Text(category.$2, style: text.bodyLarge)),
-                      const SizedBox(width: AppSpacing.small),
-                      const Icon(
-                        Icons.chevron_right,
-                        size: 20,
-                        color: AppColors.mutedInk,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              if (index < categories.length - 1)
-                const Padding(
-                  padding: EdgeInsets.only(left: 46),
-                  child: Divider(),
-                ),
-            ],
-          ),
+              ],
+            );
+          },
+        ),
       ],
     );
   }
