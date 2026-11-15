@@ -1,0 +1,33 @@
+# Reader
+
+The Home reading card opens an independent reader route without the application's main navigation. `ReaderViewModel` owns loading, stable unit selection, boundaries, favorites, and preferences. GetIt creates the ViewModel and injects focused local repositories. The composition root owns its lifecycle and supplies platform share/clipboard callbacks; the platform adapter encapsulates `share_plus` and Flutter clipboard access.
+
+## Offline corpus
+
+`ReaderContentLocalRepositoryImpl` dispatches document IDs to constructor-injected `ReadingContentSource` implementations registered at the composition root. `HeidelbergReadingContentSource` owns the Heidelberg-specific queries and mapping through `ReadingDatabase`; the reader repository contains no document-specific SQL or fixed document ID. The saved translation choice or resolved device language selects English, Portuguese, or Spanish, with Portuguese fallback. Bible book display names use generated ARB localization through the injected `BibleBookNames` interface, independently of the interface language; unknown source codes remain unchanged. `SqfliteReadingDatabase` receives the package factory and asset bundle, validates and installs the corpus revision 3 bundled SQLite file without a network request, and opens it read-only. Installation never overwrites mutable user data or an earlier corpus. Failures expose a localized retry state.
+
+Source question numbers, canonical identities, parent headings, references, and document title come from the database. Spanish has 128 questions; canonical question 80 is absent in this edition, and Spanish question 80 corresponds to canonical 81. Reading IDs use canonical identity (`question-81`), while displayed numbers follow the edition. No missing text is synthesized. Other document layouts are supported by optional question, title, and parent fields; their repositories can be added when authorized structured editions are available. English and Portuguese each contain 129 questions. Edition changes preserve canonical reading IDs (or select the next available unit if the edition omits the current one) and use the corresponding source title, parent labels, and reference book names. The source supplies the complete ordered canonical unit IDs, including units omitted by an edition. Home and reader use `ReadingContent.resolveUnitIndex` to find the same next available unit (or the preceding unit at the end), including on a fresh reader instance. A newer language request supersedes any older pending load in both Home and reader; stale successes and failures cannot replace the latest state.
+
+The navigation sheet groups actual units by parent identity and positions the current selection after layout, including variable text scaling and wrapped button rows. Dismissal preserves selection; choosing a unit closes the sheet immediately. Horizontal left swipes advance one unit and right swipes return one unit. A native PageView follows the finger, settles smoothly, and clamps at the document boundaries while preserving vertical text scrolling. Bottom arrows and navigation-sheet selections animate to the selected unit without saving intermediate positions; reduced-motion settings use an immediate transition. The minimal header contains back, share, and overflow actions. The centered parent heading (or unit title when no parent exists) is a button with a downward chevron that opens document navigation. It retains a 48-pixel touch target and a localized navigation tooltip. Home and reader overflow menus share the same translation selector and persisted preference; Home reloads the current choice when opening the selector and preserves the latest appearance settings when saving. The reader overflow menu includes translation selection; the content edition can follow the device or use a saved English, Portuguese, or Spanish choice.
+
+## Editorial hierarchy
+
+The full document name appears once as a small, uppercase editorial label above the parent heading, with a compact 12-pixel gap below the minimal header. When present, the parent grouping (such as Lord's Day) is the main serif heading, followed by a smaller, secondary unit label. Units without a parent keep their own title as the main heading. Question text is italic; answers retain the normal reading style. Question and answer indicators keep their muted accent color.
+
+## User data
+
+SharedPreferences is encapsulated behind `PreferencesStore`. Separate local repositories own:
+
+- `reader_preferences`: palette (`light`, `paper`, `dark`), text size (14–36, default 20), spacing (`compact`, `normal`, `wide`), translation (`device`, `english`, `portuguese`, `spanish`; default `device`). Changes render immediately and writes are serialized.
+- `reader_favorites`: pairs of document ID and stable reading unit ID, without content copies. Writes are serialized and favorite state changes only after persistence succeeds.
+- `reading_progress`: compatible Home records with document ID, section ID, paragraph, progress fraction, and timestamp. Existing unrelated document records are retained. Reader reopening restores the saved unit; returning to Home refreshes its progress.
+
+Home and reader share the `ReadingProgress` model and `ReadingProgressCodec` in `core/reading_progress`. Both validate and normalize legacy object and list payloads consistently; saving reader progress retains valid unrelated document records. Storage failures produce localized feedback. Theme colors live only in `ReaderTheme`; reading size and line height apply to content, while controls retain interface typography and system accessibility scaling. The compact settings sheet has no duplicated text preview.
+
+## Sharing and copying
+
+`ReadingShareFormatter` is independent of Flutter and plugins. It preserves complete source paragraphs and all supplied references with lightweight emphasis, optional parent headings, and labels matching the selected source language; interface controls retain the device language. Share and clipboard use the same message. The share button supplies its actual global bounds for tablet popovers. No URLs or theological text are invented.
+
+## Verification
+
+Tests cover settings round trips through the SharedPreferences adapter, malformed preferences, bounded sizes, complete share formatting, grouping, stable favorites, write failure, boundary navigation, position restoration, live settings, copying, sheet dismissal and selection, late-unit scrolling, narrow layouts with enlarged text, and installation/reopening of the actual SQLite corpus without network access. Native share application availability depends on the device; verify the platform share sheet on a device before release.
